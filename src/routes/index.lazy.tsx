@@ -23,15 +23,16 @@ interface Data {
 }
 
 function Index(){
-  const ref = cryptoRandomString({length: 20, type: 'url-safe'});
+  const ref = cryptoRandomString({length: 10, type: 'url-safe'});
   const [data, setData] = useState<Data>({
     name: '',
     email: '',
     phone: '',
     amount: 0
   });
+
   const config = useMemo<Config>(()=>({
-    public_key: import.meta.env.FLW_PUBLIC_KEY,
+    public_key: import.meta.env.VITE_FLW_PUBLIC_KEY,
     tx_ref: ref,
     amount: data.amount,
     redirect_url: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
@@ -47,16 +48,16 @@ function Index(){
       description: 'Payment for items in cart',
       logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
     },
-  }),[data, ref]);
+  }),[data.amount, data.email, data.name, data.phone, ref]);
 
   const handleFlutterPayment = useFlutterwave(config);
-
   const getVal = ({target}:BaseSyntheticEvent)=>{
     setData(prevState => ({...prevState, [target.name]: target.value}));
     if (target.name === "amount"){
       target.setAttribute("min",'0');
     }
   }
+
   return(
       <Stack flexDirection={"column"} gap={3}
              mx={"auto"} p={3} maxWidth={400} width={"100%"}
@@ -111,7 +112,7 @@ function Index(){
             placeholder={"0.00"}
             endAdornment={<IconButton><CurrencyExchangeOutlined sx={{color: "primary.main"}}/></IconButton>}
         />
-        <Button onClick={() => {
+        <Button  onClick={() => {
           handleFlutterPayment({
             callback: (response: FlutterWaveResponse) => {
               console.log(response);
