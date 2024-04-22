@@ -1,8 +1,8 @@
 import {createFileRoute} from '@tanstack/react-router'
-import {closePaymentModal, FlutterWaveButton, useFlutterwave} from 'flutterwave-react-v3';
+import {closePaymentModal, useFlutterwave} from 'flutterwave-react-v3';
 import {FlutterwaveConfig, FlutterWaveResponse} from "flutterwave-react-v3/dist/types";
 import {BaseSyntheticEvent, useMemo, useState} from "react";
-import {Button, IconButton, OutlinedInput, Stack, styled, Typography} from "@mui/material";
+import {Button, IconButton, OutlinedInput, Stack, Typography} from "@mui/material";
 import {
   AccountCircleOutlined, ArrowRightAltOutlined,
   CurrencyExchangeOutlined,
