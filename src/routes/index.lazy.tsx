@@ -1,7 +1,7 @@
 import {createFileRoute} from '@tanstack/react-router'
 import {closePaymentModal, useFlutterwave} from 'flutterwave-react-v3';
 import {FlutterwaveConfig, FlutterWaveResponse} from "flutterwave-react-v3/dist/types";
-import {BaseSyntheticEvent, useMemo, useState} from "react";
+import {BaseSyntheticEvent, FormEvent, useMemo, useState} from "react";
 import {
   Button,
   FormControl,
@@ -20,6 +20,8 @@ import {
 } from "@mui/icons-material";
 import cryptoRandomString from "crypto-random-string";
 import {Helmet} from "react-helmet";
+import fav from "../assets/fav.png";
+
 
 export const Route = createFileRoute('/')({
   component: Index
@@ -57,24 +59,35 @@ function Index(){
       name: data.name,
     },
     customizations: {
-      title: 'my Payment Title',
+      title: 'Shop on Point',
       description: 'Payment for items in cart',
       logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
     },
-  }),[data.amount, data.email, data.name, data.phone, ref]);
+  }),[data.amount, data.currency, data.email, data.name, data.phone, ref]);
 
   const handleFlutterPayment = useFlutterwave(config);
   const getVal = ({target}:BaseSyntheticEvent|SelectChangeEvent)=>{
     setData(prevState => ({...prevState, [target.name]: target.value}));
     if (target.name === "amount"){
-      target.setAttribute("min",'0');
+      target.setAttribute("min",'1');
     }
   }
 
   return(
-      <Stack flexDirection={"column"} gap={3}
+      <Stack flexDirection={"column"} component={"form"} gap={2}
              mx={"auto"} p={3} maxWidth={400} width={"100%"}
-             sx={{bgcolor: "common.white"}}
+             sx={{backgroundColor: "common.white"}}
+             onSubmit={(e:FormEvent<HTMLFormElement>)=>{
+               e.preventDefault();
+               handleFlutterPayment({
+                 callback: (response: FlutterWaveResponse) => {
+                   console.log(response);
+                   closePaymentModal() // this will close the modal programmatically
+                 },
+                 onClose: () => {},
+               });
+
+             }}
       >
         <Helmet>
           <style>{
@@ -84,7 +97,11 @@ function Index(){
           }
           </style>
         </Helmet>
-        <Typography variant={"h6"} align={"center"}>Enter payment details</Typography>
+        <Stack justifyContent={"center"} alignItems={"center"} flexDirection={"column"} my={2}>
+          <img src={fav} alt={"shop_on_point_logo"} width={80}/>
+          <Typography variant={"h4"} align={"center"} color={"primary"} fontWeight={700}>Shop on point</Typography>
+          <Typography variant={"h6"} align={"center"}>Enter payment details</Typography>
+        </Stack>
          <OutlinedInput
              id={"name"}
              type={"text"}
@@ -132,7 +149,7 @@ function Index(){
             fullWidth
             placeholder={"0.00"}
             endAdornment={
-              <FormControl variant="standard" sx={{ mr: -1, my: 1, ml: 1, width: 120 }}>
+              <FormControl variant="standard" sx={{ mr: -1.5, ml: 1, width: 120 }}>
                 <InputLabel id="currency">currency</InputLabel>
                 <Select
                     labelId="currency"
@@ -142,6 +159,7 @@ function Index(){
                     name="currency"
                     onChange={getVal}
                     variant={"filled"}
+                    required
                 >
                   {CURRENCY.map((val, i)=>(
                       <MenuItem key={i} value={val}>{val}</MenuItem>
@@ -150,15 +168,7 @@ function Index(){
               </FormControl>
             }
         />
-        <Button  onClick={() => {
-          handleFlutterPayment({
-            callback: (response: FlutterWaveResponse) => {
-              console.log(response);
-              closePaymentModal() // this will close the modal programmatically
-            },
-            onClose: () => {},
-          });
-        }} endIcon={<ArrowRightAltOutlined/>} variant={"contained"} sx={{
+        <Button type={"submit"} endIcon={<ArrowRightAltOutlined/>} variant={"contained"} sx={{
           backgroundColor: 'primary.main',
           color: 'common.white',
           border: "none",
@@ -167,75 +177,3 @@ function Index(){
       </Stack>
   );
 }
-
-
-/*
-
-<FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Age</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    value={age}
-    label="Age"
-    onChange={handleChange}
-  >
-    <MenuItem value={10}>Ten</MenuItem>
-    <MenuItem value={20}>Twenty</MenuItem>
-    <MenuItem value={30}>Thirty</MenuItem>
-  </Select>
-</FormControl>
-
-<select class="select__input select__input--fs-14 select__input--fcase-upper" data-option-values="true"><option value="AUD">
-
-                </option><option value="BRL">
-
-                </option><option value="CAD">
-
-                </option><option value="CNY">
-
-                </option><option value="EGP">
-
-                </option><option value="ETB">
-
-                </option><option value="EUR">
-
-                </option><option value="GBP">
-
-                </option><option value="GHS">
-
-                </option><option value="INR">
-
-                </option><option value="JPY">
-
-                </option><option value="KES">
-
-                </option><option value="MAD">
-
-                </option><option value="MUR">
-
-                </option><option value="MWK">
-
-                </option><option value="MYR">
-
-                </option><option selected="selected" value="NGN">
-
-                </option><option value="RWF">
-
-                </option><option value="TZS">
-
-                </option><option value="UGX">
-
-                </option><option value="USD">
-
-                </option><option value="XAF">
-
-                </option><option value="XOF">
-
-                </option><option value="ZAR">
-
-                </option><option value="ZMW">
-
-                </option><option value="ENGN">
-
-                </option></select>*/
