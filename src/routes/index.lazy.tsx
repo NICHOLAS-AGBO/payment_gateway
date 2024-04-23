@@ -45,7 +45,7 @@ function Index(){
     amount: 0,
     currency: 'USD'
   });
-  const CURRENCY = ['AUD','BRL','CAD','CNY','EGP','ETB','EUR','GBP','GHS','INR','JPY','KES','MAD','MUR','MWK','MYR','NGN','RWF','TZS','UGX','USD','XAF','XOF','ZAR','ZMW','ENGN'];
+  const CURRENCY = ['AUD','BRL','CAD','CNY','EGP','ETB','EUR','GBP','GHS','INR','JPY','KES','MAD','MUR','MWK','MYR','NGN','RWF','TZS','UGX','USD','XAF','XOF','ZAR','ZMW'];
   const config = useMemo<Config>(()=>({
     public_key: import.meta.env.VITE_FLW_PUBLIC_KEY,
     tx_ref: ref,
