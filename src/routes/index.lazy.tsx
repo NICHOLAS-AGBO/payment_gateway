@@ -100,7 +100,7 @@ function Index(){
         </Helmet>
         <Stack justifyContent={"center"} alignItems={"center"} flexDirection={"column"} my={2}>
           <img src={fav} alt={"shop_on_point_logo"} width={80}/>
-          <Typography variant={"h4"} align={"center"} color={"primary"} fontWeight={700}>Flutter Payment</Typography>
+          <Typography variant={"h4"} align={"center"} color={"primary"} fontWeight={700}>Flutterwave Payment</Typography>
           <Typography variant={"h6"} align={"center"}>Enter payment details</Typography>
         </Stack>
          <OutlinedInput
