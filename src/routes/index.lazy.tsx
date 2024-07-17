@@ -59,7 +59,7 @@ function Index(){
       name: data.name,
     },
     customizations: {
-      title: 'Shop on Point',
+      title: 'Purchase of Goodies',
       description: 'Payment for items in cart',
       logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
     },
@@ -90,6 +90,7 @@ function Index(){
              }}
       >
         <Helmet>
+          <meta name={"author"} content={"NICHOLAS AGBO"}/>
           <style>{
             `.TanStackRouterDevtools{
             display: none;
@@ -99,7 +100,7 @@ function Index(){
         </Helmet>
         <Stack justifyContent={"center"} alignItems={"center"} flexDirection={"column"} my={2}>
           <img src={fav} alt={"shop_on_point_logo"} width={80}/>
-          <Typography variant={"h4"} align={"center"} color={"primary"} fontWeight={700}>Shop on point</Typography>
+          <Typography variant={"h4"} align={"center"} color={"primary"} fontWeight={700}>Flutter Payment</Typography>
           <Typography variant={"h6"} align={"center"}>Enter payment details</Typography>
         </Stack>
          <OutlinedInput

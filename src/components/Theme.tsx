@@ -5,8 +5,8 @@ export default function Theme({children}:{children: ReactNode}) {
     const theme = createTheme({
         palette:{
             primary:{
-                main: '#21adec',
-                dark: '#1f97cc'
+                main: '#fb830a',
+                dark: '#d18a05'
             }
         }
     });
